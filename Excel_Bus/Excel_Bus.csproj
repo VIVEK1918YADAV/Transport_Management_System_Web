@@ -1,0 +1,1094 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{27AE0E24-96FF-48EB-8396-092E771D83CF}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Excel_Bus</RootNamespace>
+    <AssemblyName>Excel_Bus</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="AspNet.ScriptManager.bootstrap">
+      <HintPath>..\packages\AspNet.ScriptManager.bootstrap.3.4.1\lib\net45\AspNet.ScriptManager.bootstrap.dll</HintPath>
+    </Reference>
+    <Reference Include="AspNet.ScriptManager.jQuery">
+      <HintPath>..\packages\AspNet.ScriptManager.jQuery.3.4.1\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ScriptManager.MSAjax">
+      <HintPath>..\packages\Microsoft.AspNet.ScriptManager.MSAjax.5.0.0\lib\net45\Microsoft.ScriptManager.MSAjax.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ScriptManager.WebForms">
+      <HintPath>..\packages\Microsoft.AspNet.ScriptManager.WebForms.5.0.0\lib\net45\Microsoft.ScriptManager.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Web.Optimization.WebForms">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.WebForms.1.1.3\lib\net45\Microsoft.AspNet.Web.Optimization.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.FriendlyUrls">
+      <HintPath>..\packages\Microsoft.AspNet.FriendlyUrls.Core.1.0.2\lib\net45\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="About.aspx" />
+    <Content Include="img\train-1.jpg" />
+    <Content Include="img\train-2.jpg" />
+    <Content Include="img\train-bg.jpg" />
+    <Content Include="img\train_icon.png" />
+    <Content Include="img\train_ticket-1.jpg" />
+    <Content Include="img\train_ticket-2.jpg" />
+    <Content Include="img\train_ticket-3.jpg" />
+    <Content Include="img\user.png" />
+    <Content Include="sent1.html" />
+    <Content Include="sent2.html" />
+    <Content Include="TrainAdmin\add_train_coach_no.aspx" />
+    <Content Include="TrainAdmin\RailwayStations.aspx" />
+    <Content Include="TrainAdmin\AllTickets.aspx" />
+    <Content Include="TrainAdmin\AllUsers.aspx" />
+    <Content Include="TrainAdmin\Train_ActiveUser.aspx" />
+    <Content Include="TrainAdmin\Train_AdminDashboard.aspx" />
+    <Content Include="TrainAdmin\Train_AllPayment.aspx" />
+    <Content Include="TrainAdmin\Train_AssignDetails.aspx" />
+    <Content Include="TrainAdmin\Train_BookedTicket.aspx" />
+    <Content Include="TrainAdmin\Train_CoachType.aspx" />
+    <Content Include="TrainAdmin\Train_DeviceList.aspx" />
+    <Content Include="TrainAdmin\Train_FleetType.aspx" />
+    <Content Include="TrainAdmin\Train_RouteAssign.aspx" />
+    <Content Include="TrainAdmin\Train_CoachLayout.aspx" />
+    <Content Include="TrainAdmin\Train_Seat_Availability_View.aspx" />
+    <Content Include="TrainAdmin\Train_TicketPrice.aspx" />
+    <Content Include="TrainAdmin\Train_User.aspx" />
+    <Content Include="TrainAdmin\TrainList.aspx" />
+    <Content Include="TrainAdmin\TrainRoutes.aspx" />
+    <Content Include="TrainAdmin\TrainSchedules.aspx" />
+    <Content Include="TrainAdmin\TrainTransaction.aspx" />
+    <Content Include="TrainUserDashboard.aspx" />
+    <Content Include="TrainAdminLogin.aspx" />
+    <Content Include="Admin.aspx" />
+    <Content Include="Admin\ActiveUsers.aspx" />
+    <Content Include="Admin\AdminDashboard.aspx" />
+    <Content Include="Admin\AllPayments.aspx" />
+    <Content Include="Admin\AllTickets.aspx" />
+    <Content Include="Admin\AllUsers.aspx" />
+    <Content Include="Admin\ApprovedPayments.aspx" />
+    <Content Include="Admin\BannedUsers.aspx" />
+    <Content Include="Admin\BookedTickets.aspx" />
+    <Content Include="Admin\busList.aspx" />
+    <Content Include="Admin\changePassword.aspx" />
+    <Content Include="Admin\Counter.aspx" />
+    <Content Include="Admin\deviceList.aspx" />
+    <Content Include="Admin\FleetType.aspx" />
+    <Content Include="Admin\InitiatedPayments.aspx" />
+    <Content Include="Admin\it_dashboard.aspx" />
+    <Content Include="Admin\PendingPayments.aspx" />
+    <Content Include="Admin\PendingTickets.aspx" />
+    <Content Include="Admin\RejectedPayments.aspx" />
+    <Content Include="Admin\RejectedTickets.aspx" />
+    <Content Include="Admin\Route.aspx" />
+    <Content Include="Admin\Schedule.aspx" />
+    <Content Include="Admin\SeatLayout.aspx" />
+    <Content Include="Admin\SuccessfulPayments.aspx" />
+    <Content Include="Admin\TicketPrice.aspx" />
+    <Content Include="Admin\TransactionHistory.aspx" />
+    <Content Include="Admin\Trip.aspx" />
+    <Content Include="Admin\VehicleAssign.aspx" />
+    <Content Include="Admin\Vehicles.aspx" />
+    <Content Include="Admin\vehicleUser.aspx" />
+    <Content Include="Admin\assign_details.aspx" />
+    <Content Include="Admin\viewProfile.aspx" />
+    <Content Include="Admin\ws_dashboard.aspx" />
+    <Content Include="Admin\ws_vehicle_list.aspx" />
+    <Content Include="bank_deposit.aspx" />
+    <Content Include="Booked_ticket.aspx" />
+    <Content Include="BookingConfirmation.aspx" />
+    <Content Include="BookingDetails.aspx" />
+    <Content Include="Contact.aspx" />
+    <Content Include="ContactInfo.aspx" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="css\all.min.css" />
+    <Content Include="css\app.css" />
+    <Content Include="css\bootstrap-toggle.min.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\color.css" />
+    <Content Include="css\custom.css" />
+    <Content Include="css\daterangepicker.css" />
+    <Content Include="css\flaticon.css" />
+    <Content Include="css\global-line-awesome.min.css" />
+    <Content Include="css\iziToast.min.css" />
+    <Content Include="css\iziToast_custom.css" />
+    <Content Include="css\main.css" />
+    <Content Include="css\select2.min.css" />
+    <Content Include="css\slick.css" />
+    <Content Include="Dashboard.aspx" />
+    <Content Include="Default.aspx" />
+    <Content Include="DownloadTicket.aspx" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="AdminMaster.Master" />
+    <Content Include="img\driver.jpg" />
+    <Content Include="img\driver_icon" />
+    <Content Include="TrainAdminMaster.Master" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Home.aspx" />
+    <Content Include="img\App_ui1.jpg" />
+    <Content Include="img\App_ui2.jpg" />
+    <Content Include="img\App_ui3.jpg" />
+    <Content Include="img\bg_admin_login.jpg" />
+    <Content Include="img\bg_bus_img.jpg" />
+    <Content Include="img\bus_img.jpg" />
+    <Content Include="img\bus_running_bg.png" />
+    <Content Include="img\excel_bus_logo.png" />
+    <Content Include="img\favicon.png" />
+    <Content Include="img\login_bg.jpg" />
+    <Content Include="img\Running_Bus.png" />
+    <Content Include="img\ticket-1.jpg" />
+    <Content Include="img\ticket-2.jpg" />
+    <Content Include="img\ticket-3.jpg" />
+    <Content Include="index.aspx" />
+    <Content Include="js\app.js" />
+    <Content Include="js\bootstrap-toggle.min.js" />
+    <Content Include="js\bootstrap.bundle.min.js" />
+    <Content Include="js\daterangepicker.min.js" />
+    <Content Include="js\iziToast.min.js" />
+    <Content Include="js\jquery-3.7.1.min.js" />
+    <Content Include="js\main.js" />
+    <Content Include="js\moment.min.js" />
+    <Content Include="js\nicEdit.js" />
+    <Content Include="js\select2.min.js" />
+    <Content Include="js\slick.min.js" />
+    <Content Include="modifyPassword.aspx" />
+    <Content Include="MyBookings.aspx" />
+    <Content Include="Passenger_Details.aspx" />
+    <Content Include="payment.aspx" />
+    <Content Include="Profile.aspx" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\WebForms\DetailsView.js" />
+    <Content Include="Scripts\WebForms\Focus.js" />
+    <Content Include="Scripts\WebForms\GridView.js" />
+    <Content Include="Scripts\WebForms\Menu.js" />
+    <Content Include="Scripts\WebForms\MenuStandards.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjax.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxApplicationServices.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxComponentModel.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxCore.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxGlobalization.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxHistory.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxNetwork.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxSerialization.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxTimer.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebForms.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebServices.js" />
+    <Content Include="Scripts\WebForms\SmartNav.js" />
+    <Content Include="Scripts\WebForms\TreeView.js" />
+    <Content Include="Scripts\WebForms\WebForms.js" />
+    <Content Include="Scripts\WebForms\WebParts.js" />
+    <Content Include="Scripts\WebForms\WebUIValidation.js" />
+    <Content Include="Select_Seat.aspx" />
+    <Content Include="Site.Master" />
+    <Content Include="ticket.aspx" />
+    <Content Include="Train.aspx" />
+    <Content Include="TrainAdmin\TrainTrip.aspx" />
+    <Content Include="TrainTicket.aspx" />
+    <Content Include="TrainAdmin\Train_Registration.aspx" />
+    <Content Include="TrainUserReg.aspx" />
+    <Content Include="Train_BookedTicket_details.aspx" />
+    <Content Include="Train_BookedTicket_History.aspx" />
+    <Content Include="Train_Booking_Confirmation.aspx" />
+    <Content Include="Train_MyBookings.aspx" />
+    <Content Include="Train_Passeneger_Details.aspx" />
+    <Content Include="Train_Payment.aspx" />
+    <Content Include="Train_Seat_Selection.aspx" />
+    <Content Include="Train_Ticket_Download.aspx" />
+    <Content Include="Train_UserProfile.aspx" />
+    <Content Include="UserLogin.aspx" />
+    <Content Include="User_profile.aspx" />
+    <Content Include="User_View.aspx" />
+    <Content Include="ViewSwitcher.ascx" />
+    <Content Include="Web.config" />
+    <Content Include="Bundle.config" />
+    <Content Include="Site.Mobile.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TrainAdmin\add_train_coach_no.aspx.cs">
+      <DependentUpon>add_train_coach_no.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\add_train_coach_no.aspx.designer.cs">
+      <DependentUpon>add_train_coach_no.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\RailwayStations.aspx.cs">
+      <DependentUpon>RailwayStations.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\RailwayStations.aspx.designer.cs">
+      <DependentUpon>RailwayStations.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\AllTickets.aspx.cs">
+      <DependentUpon>AllTickets.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\AllTickets.aspx.designer.cs">
+      <DependentUpon>AllTickets.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\AllUsers.aspx.cs">
+      <DependentUpon>AllUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\AllUsers.aspx.designer.cs">
+      <DependentUpon>AllUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_ActiveUser.aspx.cs">
+      <DependentUpon>Train_ActiveUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_ActiveUser.aspx.designer.cs">
+      <DependentUpon>Train_ActiveUser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_AdminDashboard.aspx.cs">
+      <DependentUpon>Train_AdminDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_AdminDashboard.aspx.designer.cs">
+      <DependentUpon>Train_AdminDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_AllPayment.aspx.cs">
+      <DependentUpon>Train_AllPayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_AllPayment.aspx.designer.cs">
+      <DependentUpon>Train_AllPayment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_AssignDetails.aspx.cs">
+      <DependentUpon>Train_AssignDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_AssignDetails.aspx.designer.cs">
+      <DependentUpon>Train_AssignDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_BookedTicket.aspx.cs">
+      <DependentUpon>Train_BookedTicket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_BookedTicket.aspx.designer.cs">
+      <DependentUpon>Train_BookedTicket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_CoachType.aspx.cs">
+      <DependentUpon>Train_CoachType.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_CoachType.aspx.designer.cs">
+      <DependentUpon>Train_CoachType.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_DeviceList.aspx.cs">
+      <DependentUpon>Train_DeviceList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_DeviceList.aspx.designer.cs">
+      <DependentUpon>Train_DeviceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_FleetType.aspx.cs">
+      <DependentUpon>Train_FleetType.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_FleetType.aspx.designer.cs">
+      <DependentUpon>Train_FleetType.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_RouteAssign.aspx.cs">
+      <DependentUpon>Train_RouteAssign.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_RouteAssign.aspx.designer.cs">
+      <DependentUpon>Train_RouteAssign.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_CoachLayout.aspx.cs">
+      <DependentUpon>Train_CoachLayout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_CoachLayout.aspx.designer.cs">
+      <DependentUpon>Train_CoachLayout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_Seat_Availability_View.aspx.cs">
+      <DependentUpon>Train_Seat_Availability_View.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_Seat_Availability_View.aspx.designer.cs">
+      <DependentUpon>Train_Seat_Availability_View.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_TicketPrice.aspx.cs">
+      <DependentUpon>Train_TicketPrice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_TicketPrice.aspx.designer.cs">
+      <DependentUpon>Train_TicketPrice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_User.aspx.cs">
+      <DependentUpon>Train_User.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_User.aspx.designer.cs">
+      <DependentUpon>Train_User.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\TrainList.aspx.cs">
+      <DependentUpon>TrainList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\TrainList.aspx.designer.cs">
+      <DependentUpon>TrainList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\TrainRoutes.aspx.cs">
+      <DependentUpon>TrainRoutes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\TrainRoutes.aspx.designer.cs">
+      <DependentUpon>TrainRoutes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\TrainSchedules.aspx.cs">
+      <DependentUpon>TrainSchedules.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\TrainSchedules.aspx.designer.cs">
+      <DependentUpon>TrainSchedules.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\TrainTransaction.aspx.cs">
+      <DependentUpon>TrainTransaction.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\TrainTransaction.aspx.designer.cs">
+      <DependentUpon>TrainTransaction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainUserDashboard.aspx.cs">
+      <DependentUpon>TrainUserDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainUserDashboard.aspx.designer.cs">
+      <DependentUpon>TrainUserDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdminLogin.aspx.cs">
+      <DependentUpon>TrainAdminLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdminLogin.aspx.designer.cs">
+      <DependentUpon>TrainAdminLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin.aspx.designer.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdminMaster.Master.cs">
+      <DependentUpon>TrainAdminMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdminMaster.Master.designer.cs">
+      <DependentUpon>TrainAdminMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="AdminMaster.Master.cs">
+      <DependentUpon>AdminMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminMaster.Master.designer.cs">
+      <DependentUpon>AdminMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ActiveUsers.aspx.cs">
+      <DependentUpon>ActiveUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ActiveUsers.aspx.designer.cs">
+      <DependentUpon>ActiveUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AdminDashboard.aspx.cs">
+      <DependentUpon>AdminDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminDashboard.aspx.designer.cs">
+      <DependentUpon>AdminDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AllPayments.aspx.cs">
+      <DependentUpon>AllPayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AllPayments.aspx.designer.cs">
+      <DependentUpon>AllPayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AllTickets.aspx.cs">
+      <DependentUpon>AllTickets.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AllTickets.aspx.designer.cs">
+      <DependentUpon>AllTickets.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AllUsers.aspx.cs">
+      <DependentUpon>AllUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AllUsers.aspx.designer.cs">
+      <DependentUpon>AllUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ApprovedPayments.aspx.cs">
+      <DependentUpon>ApprovedPayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ApprovedPayments.aspx.designer.cs">
+      <DependentUpon>ApprovedPayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\BannedUsers.aspx.cs">
+      <DependentUpon>BannedUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\BannedUsers.aspx.designer.cs">
+      <DependentUpon>BannedUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\BookedTickets.aspx.cs">
+      <DependentUpon>BookedTickets.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\BookedTickets.aspx.designer.cs">
+      <DependentUpon>BookedTickets.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\busList.aspx.cs">
+      <DependentUpon>busList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\busList.aspx.designer.cs">
+      <DependentUpon>busList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\changePassword.aspx.cs">
+      <DependentUpon>changePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\changePassword.aspx.designer.cs">
+      <DependentUpon>changePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Counter.aspx.cs">
+      <DependentUpon>Counter.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Counter.aspx.designer.cs">
+      <DependentUpon>Counter.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\deviceList.aspx.cs">
+      <DependentUpon>deviceList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\deviceList.aspx.designer.cs">
+      <DependentUpon>deviceList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\FleetType.aspx.cs">
+      <DependentUpon>FleetType.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\FleetType.aspx.designer.cs">
+      <DependentUpon>FleetType.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\InitiatedPayments.aspx.cs">
+      <DependentUpon>InitiatedPayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\InitiatedPayments.aspx.designer.cs">
+      <DependentUpon>InitiatedPayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\it_dashboard.aspx.cs">
+      <DependentUpon>it_dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\it_dashboard.aspx.designer.cs">
+      <DependentUpon>it_dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\PendingPayments.aspx.cs">
+      <DependentUpon>PendingPayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\PendingPayments.aspx.designer.cs">
+      <DependentUpon>PendingPayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\PendingTickets.aspx.cs">
+      <DependentUpon>PendingTickets.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\PendingTickets.aspx.designer.cs">
+      <DependentUpon>PendingTickets.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\RejectedPayments.aspx.cs">
+      <DependentUpon>RejectedPayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\RejectedPayments.aspx.designer.cs">
+      <DependentUpon>RejectedPayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\RejectedTickets.aspx.cs">
+      <DependentUpon>RejectedTickets.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\RejectedTickets.aspx.designer.cs">
+      <DependentUpon>RejectedTickets.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Route.aspx.cs">
+      <DependentUpon>Route.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Route.aspx.designer.cs">
+      <DependentUpon>Route.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Schedule.aspx.cs">
+      <DependentUpon>Schedule.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Schedule.aspx.designer.cs">
+      <DependentUpon>Schedule.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\SeatLayout.aspx.cs">
+      <DependentUpon>SeatLayout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\SeatLayout.aspx.designer.cs">
+      <DependentUpon>SeatLayout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\SuccessfulPayments.aspx.cs">
+      <DependentUpon>SuccessfulPayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\SuccessfulPayments.aspx.designer.cs">
+      <DependentUpon>SuccessfulPayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\TicketPrice.aspx.cs">
+      <DependentUpon>TicketPrice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\TicketPrice.aspx.designer.cs">
+      <DependentUpon>TicketPrice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\TransactionHistory.aspx.cs">
+      <DependentUpon>TransactionHistory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\TransactionHistory.aspx.designer.cs">
+      <DependentUpon>TransactionHistory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Trip.aspx.cs">
+      <DependentUpon>Trip.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Trip.aspx.designer.cs">
+      <DependentUpon>Trip.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\VehicleAssign.aspx.cs">
+      <DependentUpon>VehicleAssign.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\VehicleAssign.aspx.designer.cs">
+      <DependentUpon>VehicleAssign.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Vehicles.aspx.cs">
+      <DependentUpon>Vehicles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Vehicles.aspx.designer.cs">
+      <DependentUpon>Vehicles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\vehicleUser.aspx.cs">
+      <DependentUpon>vehicleUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\vehicleUser.aspx.designer.cs">
+      <DependentUpon>vehicleUser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\viewProfile.aspx.cs">
+      <DependentUpon>viewProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\viewProfile.aspx.designer.cs">
+      <DependentUpon>viewProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ws_dashboard.aspx.cs">
+      <DependentUpon>ws_dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ws_dashboard.aspx.designer.cs">
+      <DependentUpon>ws_dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ws_vehicle_list.aspx.cs">
+      <DependentUpon>ws_vehicle_list.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ws_vehicle_list.aspx.designer.cs">
+      <DependentUpon>ws_vehicle_list.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="About.aspx.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="About.aspx.designer.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Admin\assign_details.aspx.cs">
+      <DependentUpon>assign_details.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\assign_details.aspx.designer.cs">
+      <DependentUpon>assign_details.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="bank_deposit.aspx.cs">
+      <DependentUpon>bank_deposit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="bank_deposit.aspx.designer.cs">
+      <DependentUpon>bank_deposit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Booked_ticket.aspx.cs">
+      <DependentUpon>Booked_ticket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Booked_ticket.aspx.designer.cs">
+      <DependentUpon>Booked_ticket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BookingConfirmation.aspx.cs">
+      <DependentUpon>BookingConfirmation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BookingConfirmation.aspx.designer.cs">
+      <DependentUpon>BookingConfirmation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BookingDetails.aspx.cs">
+      <DependentUpon>BookingDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BookingDetails.aspx.designer.cs">
+      <DependentUpon>BookingDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Contact.aspx.cs">
+      <DependentUpon>Contact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contact.aspx.designer.cs">
+      <DependentUpon>Contact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContactInfo.aspx.cs">
+      <DependentUpon>ContactInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContactInfo.aspx.designer.cs">
+      <DependentUpon>ContactInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DownloadTicket.aspx.cs">
+      <DependentUpon>DownloadTicket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DownloadTicket.aspx.designer.cs">
+      <DependentUpon>DownloadTicket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modifyPassword.aspx.cs">
+      <DependentUpon>modifyPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modifyPassword.aspx.designer.cs">
+      <DependentUpon>modifyPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MyBookings.aspx.cs">
+      <DependentUpon>MyBookings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MyBookings.aspx.designer.cs">
+      <DependentUpon>MyBookings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Passenger_Details.aspx.cs">
+      <DependentUpon>Passenger_Details.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Passenger_Details.aspx.designer.cs">
+      <DependentUpon>Passenger_Details.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="payment.aspx.cs">
+      <DependentUpon>payment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="payment.aspx.designer.cs">
+      <DependentUpon>payment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile.aspx.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile.aspx.designer.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Select_Seat.aspx.cs">
+      <DependentUpon>Select_Seat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Select_Seat.aspx.designer.cs">
+      <DependentUpon>Select_Seat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Site.Mobile.Master.cs">
+      <DependentUpon>Site.Mobile.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Mobile.Master.designer.cs">
+      <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="ticket.aspx.cs">
+      <DependentUpon>ticket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ticket.aspx.designer.cs">
+      <DependentUpon>ticket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Train.aspx.cs">
+      <DependentUpon>Train.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Train.aspx.designer.cs">
+      <DependentUpon>Train.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\TrainTrip.aspx.cs">
+      <DependentUpon>TrainTrip.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\TrainTrip.aspx.designer.cs">
+      <DependentUpon>TrainTrip.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainTicket.aspx.cs">
+      <DependentUpon>TrainTicket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainTicket.aspx.designer.cs">
+      <DependentUpon>TrainTicket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainUserMaster.Master.cs">
+      <DependentUpon>TrainUserMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainUserMaster.Master.designer.cs">
+      <DependentUpon>TrainUserMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_Registration.aspx.cs">
+      <DependentUpon>Train_Registration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainAdmin\Train_Registration.aspx.designer.cs">
+      <DependentUpon>Train_Registration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrainUserReg.aspx.cs">
+      <DependentUpon>TrainUserReg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrainUserReg.aspx.designer.cs">
+      <DependentUpon>TrainUserReg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Train_BookedTicket_details.aspx.cs">
+      <DependentUpon>Train_BookedTicket_details.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Train_BookedTicket_details.aspx.designer.cs">
+      <DependentUpon>Train_BookedTicket_details.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Train_BookedTicket_History.aspx.cs">
+      <DependentUpon>Train_BookedTicket_History.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Train_BookedTicket_History.aspx.designer.cs">
+      <DependentUpon>Train_BookedTicket_History.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Train_Booking_Confirmation.aspx.cs">
+      <DependentUpon>Train_Booking_Confirmation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Train_Booking_Confirmation.aspx.designer.cs">
+      <DependentUpon>Train_Booking_Confirmation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Train_MyBookings.aspx.cs">
+      <DependentUpon>Train_MyBookings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Train_MyBookings.aspx.designer.cs">
+      <DependentUpon>Train_MyBookings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Train_Passeneger_Details.aspx.cs">
+      <DependentUpon>Train_Passeneger_Details.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Train_Passeneger_Details.aspx.designer.cs">
+      <DependentUpon>Train_Passeneger_Details.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Train_Payment.aspx.cs">
+      <DependentUpon>Train_Payment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Train_Payment.aspx.designer.cs">
+      <DependentUpon>Train_Payment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Train_Seat_Selection.aspx.cs">
+      <DependentUpon>Train_Seat_Selection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Train_Seat_Selection.aspx.designer.cs">
+      <DependentUpon>Train_Seat_Selection.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Train_Ticket_Download.aspx.cs">
+      <DependentUpon>Train_Ticket_Download.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Train_Ticket_Download.aspx.designer.cs">
+      <DependentUpon>Train_Ticket_Download.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Train_UserProfile.aspx.cs">
+      <DependentUpon>Train_UserProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Train_UserProfile.aspx.designer.cs">
+      <DependentUpon>Train_UserProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserLogin.aspx.cs">
+      <DependentUpon>UserLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserLogin.aspx.designer.cs">
+      <DependentUpon>UserLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="User_profile.aspx.cs">
+      <DependentUpon>User_profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User_profile.aspx.designer.cs">
+      <DependentUpon>User_profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="User_View.aspx.cs">
+      <DependentUpon>User_View.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User_View.aspx.designer.cs">
+      <DependentUpon>User_View.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewSwitcher.ascx.cs">
+      <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewSwitcher.ascx.designer.cs">
+      <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="TrainUserMaster.Master" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>56140</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:56140/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

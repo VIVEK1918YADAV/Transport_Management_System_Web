@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crop Health Map with Sentinel-1</title>
+
+    <!-- OpenLayers -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@4.6.5/ol.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol.js"></script>
+
+    <!-- shp.js -->
+    <script src="https://unpkg.com/shpjs@latest/dist/shp.min.js"></script>
+
+    <style>
+        body { margin: 0; font-family: Arial; }
+        #map { width: 100%; height: 95.5vh; }
+        .controls {
+            padding: 10px;
+            background: #f4f4f4;
+        }
+        button {
+            padding: 8px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        button.active {
+            background-color: #0066ff;
+            color: white;
+            font-weight: bold;
+            border: 1px solid #0044cc;
+        }
+        label {
+            margin-left: 15px;
+            font-weight: bold;
+        }
+        fieldset {
+            display: inline-block;
+            margin-left: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        legend {
+            font-weight: bold;
+            padding: 0 5px;
+        }
+        fieldset label {
+            margin-left: 10px;
+            margin-right: 15px;
+            font-weight: normal;
+        }
+        fieldset button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="controls">
+
+    <input type="file" id="fileInput" accept=".zip" />
+
+    <input type="date" id="date">
+
+    <!-- Geometry Selection Radio Buttons -->
+    <fieldset>
+        <legend>Select Geometry:</legend>
+        <label>
+            <input type="radio" name="geometryType" value="predefined" checked onchange="setGeometryType(this.value)">
+            Predefined
+        </label>
+        <label>
+            <input type="radio" name="geometryType" value="uploaded" onchange="setGeometryType(this.value)">
+            Uploaded
+        </label>
+    </fieldset>
+
+    <!-- Crop Analysis Menu -->
+    <fieldset>
+        <legend>Calculate:</legend>
+        <button class="metric-btn" onclick="calculateCropMetric('crop-health')">
+            Crop Health
+        </button>
+        <button class="metric-btn" onclick="calculateCropMetric('crop-growth')">
+            Crop Growth
+        </button>
+        <button class="metric-btn" onclick="calculateCropMetric('enhanced-vegetation')">
+            Enhanced Vegetation
+        </button>
+        <button class="metric-btn" onclick="calculateCropMetric('nitrogen-content')">
+            Nitrogen Content
+        </button>
+        <button class="metric-btn" onclick="calculateCropMetric('vegetation-moisture')"> 
+            Vegetation Moisture
+        </button>
+    </fieldset>
+
+    <label>
+        <input type="checkbox" id="sentinel1Toggle" onchange="toggleSentinel1(this)">
+        Sentinel-2
+    </label>
+
+    <label>
+        <input type="checkbox" id="cropHealthToggle" onchange="toggleCropHealth(this)">
+        Response
+    </label>
+
+</div>
+
+<div id="map"></div>
+
+<script>
+
+    let vectorLayer;
+    let uploadedZipFile = null;
+    let cropHealthLayer = null;
+    let cropHealthVisible = true;
+    let selectedGeometryType = "predefined";
+    let selectedMetricType = "soil-moisture";
+
+    // -----------------------------
+    // Base OSM Layer
+    // -----------------------------
+    const osmLayer = new ol.layer.Tile({
+        source: new ol.source.OSM()
+    });
+
+    // -----------------------------
+    // Sentinel-1 Layer
+    // -----------------------------
+    const sentinel1Layer = new ol.layer.Tile({
+        visible: false,
+        name: 'sentinel-1',
+        source: new ol.source.TileWMS({
+            url: 'https://services.sentinel-hub.com/ogc/wms/1c6dbb99-7560-407e-9b24-6e3547b80f9d',
+            params: {
+                "maxcc": 50,
+                "layers": "2_FALSE-COLOR-L1C"
+            },
+            serverType: 'geoserver',
+            crossOrigin: 'anonymous',
+            transition: 0
+        })
+    });
+
+    // -----------------------------
+    // Default GeoServer WFS Layer
+    // -----------------------------
+    const wfsUrl = "http://203.122.5.18:9007/geoserver/nrdc/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=nrdc:kazakhstan_parcel&outputFormat=application/json&srsName=EPSG:3857";
+
+    const defaultParcelLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            url: wfsUrl,
+            format: new ol.format.GeoJSON()
+        }),
+        style: new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: '#0066ff',
+                width: 2
+            }),
+            fill: new ol.style.Fill({
+                color: 'rgba(0,102,255,0.2)'
+            })
+        })
+    });
+
+    // -----------------------------
+    // Initialize Map
+    // -----------------------------
+    const map = new ol.Map({
+        target: 'map',
+        layers: [osmLayer, sentinel1Layer, defaultParcelLayer],
+        view: new ol.View({
+            center: ol.proj.fromLonLat([66.9237, 48.0196]),
+            zoom: 5
+        })
+    });
+
+    // Zoom to WFS layer after load
+    defaultParcelLayer.getSource().on('change', function () {
+        if (defaultParcelLayer.getSource().getState() === 'ready') {
+            const extent = defaultParcelLayer.getSource().getExtent();
+            map.getView().fit(extent, { duration: 1000 });
+        }
+    });
+
+    // -----------------------------
+    // Sentinel Date Handling
+    // -----------------------------
+    function updateSentinelDate() {
+
+        const selectedDate = document.getElementById("date").value;
+
+        if (!selectedDate) {
+            alert("Please select a date first.");
+            return;
+        }
+
+        sentinel1Layer.getSource().updateParams({
+            "time": selectedDate
+        });
+
+        sentinel1Layer.getSource().refresh();
+    }
+
+    function toggleSentinel1(checkbox) {
+
+        if (checkbox.checked) {
+            updateSentinelDate();
+        }
+
+        sentinel1Layer.setVisible(checkbox.checked);
+    }
+
+    function toggleCropHealth(checkbox) {
+        cropHealthVisible = checkbox.checked;
+        if (cropHealthLayer) {
+            cropHealthLayer.setVisible(checkbox.checked);
+        }
+    }
+
+    document.getElementById("date").addEventListener("change", function() {
+        if (sentinel1Layer.getVisible()) {
+            updateSentinelDate();
+        }
+    });
+
+    // -----------------------------
+    // Geometry Type Selection
+    // -----------------------------
+    function setGeometryType(type) {
+        selectedGeometryType = type;
+    }
+
+    // -----------------------------
+    // Crop Metric Selection
+    // -----------------------------
+    function calculateCropMetric(metricType) {
+        selectedMetricType = metricType;
+        
+        // Highlight the clicked button
+        highlightMetricButton(metricType);
+        
+        if (selectedGeometryType === "predefined") {
+            calculatePredefinedGeometry(metricType);
+        } else {
+            calculateUploadedGeometry(metricType);
+        }
+    }
+
+    function highlightMetricButton(metricType) {
+        // Remove active class from all metric buttons
+        const allButtons = document.querySelectorAll('.metric-btn');
+        allButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to the clicked button
+        const metricMap = {
+            'crop-health': 0,
+            'crop-growth': 1,
+            'enhanced-vegetation': 2,
+            'nitrogen-content': 3,
+            'vegetation-moisture': 4
+        };
+        
+        const buttonIndex = metricMap[metricType];
+        if (buttonIndex !== undefined) {
+            allButtons[buttonIndex].classList.add('active');
+        }
+    }
+
+    // -----------------------------
+    // Shapefile Upload
+    // -----------------------------
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+
+        const file = event.target.files[0];
+        if (!file) return;
+        uploadedZipFile = file;
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            shp(e.target.result).then(function (geojson) {
+
+                const features = new ol.format.GeoJSON().readFeatures(geojson, {
+                    featureProjection: 'EPSG:3857'
+                });
+
+                const vectorSource = new ol.source.Vector({
+                    features: features
+                });
+
+                if (vectorLayer) {
+                    map.removeLayer(vectorLayer);
+                }
+
+                vectorLayer = new ol.layer.Vector({
+                    source: vectorSource,
+                    style: new ol.style.Style({
+                        stroke: new ol.style.Stroke({
+                            color: 'green',
+                            width: 2
+                        }),
+                        fill: new ol.style.Fill({
+                            color: 'rgba(0, 128, 0, 0.2)'
+                        })
+                    })
+                });
+
+                map.addLayer(vectorLayer);
+
+                map.getView().fit(vectorSource.getExtent(), {
+                    duration: 1000
+                });
+            });
+        };
+
+        reader.readAsArrayBuffer(file);
+    });
+
+    // ///////////////////////////////
+    // 1️⃣ Uploaded Geometry Button
+    // ///////////////////////////////
+    async function calculateUploadedGeometry(metricType) {
+
+        if (!uploadedZipFile) {
+            alert("Please upload shapefile first.");
+            return;
+        }
+
+        const selectedDate = document.getElementById("date").value;
+
+        if (!selectedDate) {
+            alert("Please select date first.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", uploadedZipFile);
+
+        try {
+            // Build endpoint URL based on metric type
+            const endpoint = buildMetricEndpoint(metricType, true);
+            
+            const response = await fetch(
+                `https://sentinel.geolyticsagro.com/CropStatus-Sen2${endpoint}?date=${selectedDate}`,
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("API error");
+            }
+
+            const bboxHeader = response.headers.get("X-BBOX");
+            const areaStatsHeader = response.headers.get("X-AREA-STATS");
+
+            if (areaStatsHeader) {
+                const areaStats = JSON.parse(areaStatsHeader);
+                console.log("Area Stats:", areaStats);
+                displayAreaStats(areaStats);
+            }
+
+            const blob = await response.blob();
+            const imageUrl = URL.createObjectURL(blob);
+
+            displayCropHealthImage(imageUrl, bboxHeader);
+
+        } catch (err) {
+            console.error(err);
+            alert("Calculation failed");
+        }
+    }
+
+
+    // ///////////////////////////////
+    // 2️⃣ Predefined Geometry Button
+    // ///////////////////////////////
+    async function calculatePredefinedGeometry(metricType) {
+
+        const source = defaultParcelLayer.getSource();
+        const features = source.getFeatures();
+ 
+        if (features.length === 0) {
+            alert("No predefined parcel features loaded.");
+            return;
+        }
+
+        const selectedDate = document.getElementById("date").value;
+
+        if (!selectedDate) {
+            alert("Please select date first.");
+            return;
+        }
+
+        // Convert multiple features to GeoJSON (IMPORTANT: 4326)
+        const geojson = new ol.format.GeoJSON().writeFeaturesObject(
+            features,
+            {
+                featureProjection: 'EPSG:3857',
+                dataProjection: 'EPSG:4326'
+            }
+      );
+
+      try {
+          // Build endpoint URL based on metric type
+          const endpoint = buildMetricEndpoint(metricType, false);
+
+          const response = await fetch(
+              `https://sentinel.geolyticsagro.com/CropStatus-Sen2${endpoint}`,
+              {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    geometry: geojson,
+                    date: selectedDate
+                })
+               }
+           );
+           console.log("Status:", response.status);
+
+           console.log("All Headers:");
+           for (let pair of response.headers.entries()) {
+               console.log(pair[0] + ': ' + pair[1]);
+            }
+
+            const crsHeader = response.headers.get("X-CRS");
+            const areaStatsHeader = response.headers.get("X-AREA-STATS");
+
+            if (areaStatsHeader) {
+                const areaStats = JSON.parse(areaStatsHeader);
+                console.log("Area Stats:", areaStats);
+                displayAreaStats(areaStats);
+            }
+
+            console.log("CRS:", crsHeader);
+
+
+           if (!response.ok) {
+               throw new Error("API error");
+           }
+
+           const bboxHeader = response.headers.get("X-BBOX");
+           const blob = await response.blob();
+           const imageUrl = URL.createObjectURL(blob);
+
+           displayCropHealthImage(imageUrl, bboxHeader);
+
+        } catch (err) {
+            console.error(err);
+            alert("Calculation failed");
+        }
+    }
+
+    // ///////////////////////////////
+    // Helper: Build Metric Endpoint
+    // ///////////////////////////////
+    function buildMetricEndpoint(metricType, isUpload) {
+        const metricMap = {
+            "nitrogen-content": "/s2/nitrogen-content-index",
+            "crop-health": "/s2/crop-health",
+            "crop-growth": "/s2/crop-growth",
+            "enhanced-vegetation": "/s2/enhanced-vege",
+            "vegetation-moisture": "/s2/vegetation-moisture"
+        };
+
+        const basePath = metricMap[metricType] || metricMap["soil-moisture"];
+        
+        if (isUpload) {
+            return basePath;
+        } else {
+            return basePath + "/run-geojson";
+        }
+    }
+
+
+    function displayCropHealthImage(imageUrl, bboxHeader) {
+
+    if (!bboxHeader) {
+        alert("No bounding box returned from API");
+        return;
+    }
+
+    if (cropHealthLayer) {
+        map.removeLayer(cropHealthLayer);
+    }
+
+   
+    let extent4326 = bboxHeader.split(",").map(Number);
+
+
+    let extent3857 = ol.proj.transformExtent(
+        extent4326,
+        'EPSG:4326',
+        'EPSG:3857'
+    );
+
+    cropHealthLayer = new ol.layer.Image({
+        source: new ol.source.ImageStatic({
+            url: imageUrl,
+            imageExtent: extent3857,
+            projection: 'EPSG:3857'
+        })
+    });
+
+    cropHealthLayer.setVisible(cropHealthVisible);
+    map.addLayer(cropHealthLayer);
+
+    map.getView().fit(extent3857, { duration: 1000 });
+    
+    document.getElementById('cropHealthToggle').checked = true;
+    cropHealthVisible = true;
+}
+
+
+
+
+
+</script>
+
+</body>
+</html>

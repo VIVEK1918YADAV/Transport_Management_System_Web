@@ -1,0 +1,894 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminMaster.Master.cs" Inherits="Excel_Bus.AdminMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExcelBus - Dashboard</title>
+
+    <link rel="shortcut icon" type="image/png" href="~/assets/images/logo_icon/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/global/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/admin/css/vendor/bootstrap-toggle.min.css">
+    <link rel="stylesheet" href="~/assets/global/css/all.min.css">
+    <link rel="stylesheet" href="~/assets/global/css/line-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/global/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/assets/global/css/select2.min.css">
+    <link rel="stylesheet" href="~/assets/admin/css/app.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <style>
+        :root {
+            --main-blue: #1e3c72;
+            --main-blue-light: #2a5298;
+            --submenu-bg: #142850;
+            --active-yellow: #ffd500;
+            --hover-blue: #264e9a;
+            --divider: rgb(239 240 245);
+            --text-white: #fff;
+            --font: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font);
+            background: #f7f8fc;
+        }
+
+        /* Sidebar Container */
+        .daterangepicker.ltr.show-ranges.opensright {
+            display: none !important;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #457ee9;
+            position: fixed;
+            top: 0;
+            left: 0;
+            color: var(--text-white);
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            font-family: var(--font);
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        /* Sidebar Inner */
+        .sidebar__inner {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Logo Section */
+        .sidebar__logo {
+            padding: 25px 10px;
+            text-align: center;
+            border-bottom: 1px solid var(--divider);
+            background-color: #fff;
+        }
+
+            .sidebar__logo img {
+                width: 80px;
+                height: 80px;
+                object-fit: contain;
+                border-radius: 50%;
+            }
+
+            .sidebar__logo h3 {
+                color: #333;
+                font-size: 16px;
+                margin-top: 8px;
+                font-weight: 600;
+            }
+
+        /* Menu Wrapper */
+        .sidebar__menu-wrapper {
+            flex-grow: 1;
+            padding-top: 15px;
+        }
+
+        .sidebar__menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Each menu item */
+        .sidebar-menu-item {
+            position: relative;
+            text-align: center;
+        }
+
+            /* Divider line */
+            .sidebar-menu-item::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background-color: var(--divider);
+            }
+
+            /* Main Links */
+            .sidebar-menu-item > a {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-decoration: none;
+                color: var(--text-white);
+                padding: 15px;
+                transition: all 0.3s ease;
+            }
+
+                /* Icon */
+                .sidebar-menu-item > a i.menu-icon {
+                    font-size: 22px;
+                    margin-bottom: 4px;
+                }
+
+                /* Hover */
+                .sidebar-menu-item > a:hover {
+                    background-color: var(--hover-blue);
+                }
+
+            /* Active */
+            .sidebar-menu-item.active > a {
+                background-color: var(--active-yellow);
+                color: #000;
+                font-weight: 600;
+            }
+
+        /* Submenu */
+        .sidebar-submenu {
+            background-color: var(--submenu-bg);
+            display: none;
+            border-top: 1px solid var(--divider);
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .sidebar-menu-item.active .sidebar-submenu {
+            display: block;
+        }
+
+        .sidebar-submenu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            .sidebar-submenu ul li a {
+                display: block;
+                padding: 10px 15px;
+                color: #ddd;
+                text-decoration: none;
+                font-size: 14px;
+                transition: all 0.3s ease;
+            }
+
+                .sidebar-submenu ul li a:hover {
+                    color: #fff;
+                    background-color: #1b3b7a;
+                }
+
+            .sidebar-submenu ul li.active a {
+                background-color: #1b3b7a;
+                color: #fff;
+            }
+
+        /* Scrollbar */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #476caf;
+            border-radius: 10px;
+        }
+
+        /* Page Wrapper */
+        .page-wrapper {
+            margin-left: 250px;
+            background: #f7f8fc;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Navbar */
+        .navbar-wrapper {
+            height: 76px;
+            background: linear-gradient(90deg, #457ee9 1%, #d0d8e3 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 25px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Content Area */
+        .body-wrapper {
+            padding: 25px;
+        }
+
+        /* Right side menu */
+        .navbar__right ul {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        /* Notification bell */
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+        }
+
+            .notification-bell img {
+                width: 24px;
+                height: 24px;
+            }
+
+            .notification-bell:hover img {
+                transform: scale(1.1);
+                transition: transform 0.2s ease;
+            }
+
+        /* Notification count badge */
+        .badge.bg-warning {
+            background-color: #FFD500 !important;
+            color: #000 !important;
+            font-weight: 600;
+            border-radius: 50%;
+            padding: 3px 7px;
+        }
+
+        /* Profile dropdown */
+        .profile-dropdown button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .navbar-user__thumb img {
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .dropdown-menu__item:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px;
+            }
+
+                .sidebar.open {
+                    left: 0;
+                }
+
+            .page-wrapper {
+                margin-left: 0;
+            }
+
+            .navbar-wrapper {
+                left: 0;
+            }
+        }
+    </style>
+
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+
+        <div id="google_translate_element" style="display: none;"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar__inner">
+                <!-- Logo Section -->
+                <div class="sidebar__logo">
+                    <img src="~/assets/images/logo_icon/logo.png" alt="ExcelBus Logo">
+                    <h3>ExcelBus Admin</h3>
+                </div>
+
+                <!-- Menu Wrapper -->
+                <div class="sidebar__menu-wrapper">
+                    <ul class="sidebar__menu">
+                        <!-- Dashboard -->
+                       <%-- <li class="sidebar-menu-item" id="m_1" runat="server" visible="false">
+                            <a href="AdminDashboard.aspx" class="nav-link">
+                                <i class="menu-icon las la-home"></i>
+                                <span class="menu-title">Dashboard</span>
+                            </a>
+                        </li>--%>
+
+
+                         <li class="sidebar-menu-item sidebar-dropdown" id="m_1" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-bus"></i>
+                                <span class="menu-title">Dashboard</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_26" runat="server" visible="false">
+                                        <a href="AdminDashboard.aspx" class="nav-link">
+                                            <i class="menu-icon las la-warehouse"></i>
+                                            <span class="menu-title">Dashboard</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        <!-- Manage Users -->
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_2" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-users"></i>
+                                <span class="menu-title">Manage Users</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_1" runat="server" visible="false">
+                                        <a href="vehicleUser.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Vehicle Users</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_2" runat="server" visible="false">
+                                        <a href="ActiveUsers.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Active Users</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_3" runat="server" visible="false">
+                                        <a href="BannedUsers.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Banned Users</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_4" runat="server" visible="false">
+                                        <a href="AllUsers.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">All Users</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- Booking History -->
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_3" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-credit-card"></i>
+                                <span class="menu-title">Booking History</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_5" runat="server" visible="false">
+                                        <a href="PendingTickets.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Pending Ticket</span>
+                                            <span class="menu-badge bg--info ms-auto" runat="server" id="badgePendingTickets"></span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_6" runat="server" visible="false">
+                                        <a href="BookedTickets.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Booked Ticket</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_7" runat="server" visible="false">
+                                        <a href="RejectedTickets.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Rejected Ticket</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_8" runat="server" visible="false">
+                                        <a href="AllTickets.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">All Ticket</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- Report -->
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_4" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon la la-list"></i>
+                                <span class="menu-title">Report</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_9" runat="server" visible="false">
+                                        <a href="TransactionHistory.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Transaction History</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_10" runat="server" visible="false">
+                                        <a href="LoginHistory.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Login History</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- Payments -->
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_5" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-file-invoice-dollar"></i>
+                                <span class="menu-title">Payments</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_11" runat="server" visible="false">
+                                        <a href="PendingPayments.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Pending Payments</span>
+                                            <span class="menu-badge bg--info ms-auto" runat="server" id="badgePendingPayments"></span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_12" runat="server" visible="false">
+                                        <a href="ApprovedPayments.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Approved Payments</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_13" runat="server" visible="false">
+                                        <a href="SuccessfulPayments.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Successful Payments</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_14" runat="server" visible="false">
+                                        <a href="RejectedPayments.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Rejected Payments</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_15" runat="server" visible="false">
+                                        <a href="AllPayments.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">All Payments</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                      <%--   <li class="sidebar-menu-item" id="m_6" runat="server" visible="false">
+                            <a href="Counter.aspx" class="nav-link">
+                                <i class="menu-icon las la-counter"></i>
+                                <span class="menu-title">Counter</span>
+                            </a>
+                        </li>--%>
+                       
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_6" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-bus"></i>
+                                <span class="menu-title">Counter</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_27" runat="server" visible="false">
+                                        <a href="Counter.aspx" class="nav-link">
+                                            <i class="menu-icon las la-warehouse"></i>
+                                            <span class="menu-title">Counter</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                       
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_7" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-bus"></i>
+                                <span class="menu-title">Manage Fleet</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_16" runat="server" visible="false">
+                                        <a href="SeatLayout.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Seat Layout</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_17" runat="server" visible="false">
+                                        <a href="FleetType.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Fleet Type</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_18" runat="server" visible="false">
+                                        <a href="Vehicles.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Vehicles</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_8" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-file-invoice-dollar"></i>
+                                <span class="menu-title">Manage Trip</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_19" runat="server" visible="false">
+                                        <a href="Route.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Route</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_20" runat="server" visible="false">
+                                        <a href="Schedule.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Schedule</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_21" runat="server" visible="false">
+                                        <a href="TicketPrice.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Ticket Price</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_22" runat="server" visible="false">
+                                        <a href="Trip.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Trip</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_23" runat="server" visible="false">
+                                        <a href="VehicleAssign.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Vehicle Assign</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                     <%--   <li class="sidebar-menu-item" id="m_9" runat="server" visible="false">
+                            <a href="assign_details.aspx" class="nav-link">
+                                <i class="menu-icon las la-bus"></i>
+                                <span class="menu-title">Bus Assign Requirement</span>
+                            </a>
+                        </li>
+                       --%>
+                         <li class="sidebar-menu-item sidebar-dropdown" id="m_9" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-bus"></i>
+                                <span class="menu-title">Bus Assign Requirement</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_28" runat="server" visible="false">
+                                        <a href="assign_details.aspx" class="nav-link">
+                                            <i class="menu-icon las la-warehouse"></i>
+                                            <span class="menu-title">Bus Assign</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_10" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-bus"></i>
+                                <span class="menu-title">Vehicle List</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_24" runat="server" visible="false">
+                                        <a href="ws_vehicle_list.aspx" class="nav-link">
+                                            <i class="menu-icon las la-warehouse"></i>
+                                            <span class="menu-title">Vehicle List</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_11" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-bus"></i>
+                                <span class="menu-title">Device List</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_25" runat="server" visible="false">
+                                        <a href="deviceList.aspx" class="nav-link">
+                                            <i class="menu-icon las la-warehouse"></i>
+                                            <span class="menu-title">Device List</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- sidebar end -->
+
+        <!-- Page Wrapper -->
+        <div class="page-wrapper">
+            <!-- navbar-wrapper start -->
+            <nav class="navbar-wrapper">
+                <div class="navbar__right">
+                    <ul class="navbar__action-list">
+                        <!--notification-->
+                        <li class="nav-item dropdown position-relative">
+                            <button class="btn btn-link position-relative text-white"
+                                id="notificationToggle"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                aria-label="Notifications">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1827/1827392.png" alt="Notification Bell" style="width: 24px; height: 24px;" />
+                                <span class="badge bg-warning text-dark position-absolute top-0 start-100 translate-middle rounded-pill"
+                                    runat="server" id="notificationCount" style="font-size: 0.7rem; padding: 0.25em 0.4em;"></span>
+                            </button>
+                        </li>
+
+                        <!-- 👤 Profile Dropdown -->
+                        <li class="dropdown d-flex align-items-center profile-dropdown">
+                            <button type="button" class="btn btn-link text-white p-0 d-flex align-items-center"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="navbar-user d-flex align-items-center">
+                                    <span class="navbar-user__thumb me-2">
+                                        <asp:Image ID="imgAdminProfile" runat="server" AlternateText="Profile Image"
+                                            CssClass="rounded-circle" Width="35" Height="35"
+                                            ImageUrl="~/assets/admin/images/profile/684ab5b466c521749726644.png" />
+                                    </span>
+                                    <span class="navbar-user__info d-none d-sm-block">
+                                        <span class="navbar-user__name fw-semibold" runat="server" id="adminName">admin</span>
+                                    </span>
+                                    <i class="las la-chevron-circle-down ms-2"></i>
+                                </span>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu--sm border-0 box--shadow1 dropdown-menu-end mt-2">
+                                <a href="viewProfile.aspx" class="dropdown-menu__item d-flex align-items-center px-3 py-2 text-decoration-none text-dark">
+                                    <i class="dropdown-menu__icon las la-user-circle me-2 fs-5"></i>
+                                    <span class="dropdown-menu__caption">Profile</span>
+                                </a>
+                                <a href="changePassword.aspx" class="dropdown-menu__item d-flex align-items-center px-3 py-2 text-decoration-none text-dark">
+                                    <i class="dropdown-menu__icon las la-key me-2 fs-5"></i>
+                                    <span class="dropdown-menu__caption">Password</span>
+                                </a>
+                                <asp:LinkButton ID="lnkLogout" runat="server" CssClass="dropdown-menu__item d-flex align-items-center px-3 py-2 text-decoration-none text-dark" OnClick="lnkLogout_Click">
+                                    <i class="dropdown-menu__icon las la-sign-out-alt me-2 fs-5"></i>
+                                    <span class="dropdown-menu__caption">Logout</span>
+                                </asp:LinkButton>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- navbar-wrapper end -->
+
+            <div class="container-fluid px-3 px-sm-0">
+                <div class="body-wrapper">
+                    <div class="bodywrapper__inner">
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener("click", function (e) {
+            const toggle = document.getElementById("notificationToggle");
+            const menu = toggle?.nextElementSibling;
+            if (!menu) return;
+
+            if (toggle.contains(e.target)) {
+                menu.classList.toggle("show");
+            } else if (!menu.contains(e.target)) {
+                menu.classList.remove("show");
+            }
+        });
+    </script>
+
+    <!-- Scripts -->
+    <script src="<%= ResolveUrl("~/assets/global/js/jquery-3.7.1.min.js") %>"></script>
+    <script src="<%= ResolveUrl("~/assets/global/js/bootstrap.bundle.min.js") %>"></script>
+    <script src="<%= ResolveUrl("~/assets/admin/js/vendor/bootstrap-toggle.min.js") %>"></script>
+
+    <link href="<%= ResolveUrl("~/assets/global/css/iziToast.min.css") %>" rel="stylesheet">
+    <link href="<%= ResolveUrl("~/assets/global/css/iziToast_custom.css") %>" rel="stylesheet">
+    <script src="<%= ResolveUrl("~/assets/global/js/iziToast.min.js") %>"></script>
+
+    <script>
+        "use strict";
+        const colors = {
+            success: '#28c76f',
+            error: '#eb2222',
+            warning: '#ff9f43',
+            info: '#1e9ff2',
+        }
+
+        const icons = {
+            success: 'fas fa-check-circle',
+            error: 'fas fa-times-circle',
+            warning: 'fas fa-exclamation-triangle',
+            info: 'fas fa-exclamation-circle',
+        }
+
+        const triggerToaster = (status, message) => {
+            iziToast[status]({
+                title: status.charAt(0).toUpperCase() + status.slice(1),
+                message: message,
+                position: "topRight",
+                backgroundColor: '#fff',
+                icon: icons[status],
+                iconColor: colors[status],
+                progressBarColor: colors[status],
+                titleSize: '1rem',
+                messageSize: '1rem',
+                titleColor: '#474747',
+                messageColor: '#a2a2a2',
+                transitionIn: 'obunceInLeft'
+            });
+        }
+
+        function notify(status, message) {
+            if (typeof message == 'string') {
+                triggerToaster(status, message);
+            } else {
+                $.each(message, (i, val) => triggerToaster(status, val));
+            }
+        }
+    </script>
+
+    <script src="<%= ResolveUrl("~/assets/global/js/nicEdit.js") %>"></script>
+    <script src="<%= ResolveUrl("~/assets/global/js/select2.min.js") %>"></script>
+    <script src="<%= ResolveUrl("~/assets/admin/js/app.js") %>"></script>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'fr',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+
+        function autoTranslateToFrench() {
+            const interval = setInterval(() => {
+                const select = document.querySelector('.goog-te-combo');
+                if (select) {
+                    select.value = 'fr';
+                    select.dispatchEvent(new Event('change'));
+                    clearInterval(interval);
+                }
+            }, 500);
+        }
+
+        window.addEventListener('load', () => {
+            autoTranslateToFrench();
+        });
+    </script>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        "use strict";
+        bkLib.onDomLoaded(function () {
+            $(".nicEdit").each(function (index) {
+                $(this).attr("id", "nicEditor" + index);
+                new nicEditor({ fullPanel: true }).panelInstance('nicEditor' + index, { hasPanel: true });
+            });
+        });
+
+        (function ($) {
+            $(document).on('mouseover', '.nicEdit-main,.nicEdit-panelContain', function () {
+                $('.nicEdit-main').focus();
+            });
+
+            $('.breadcrumb-nav-open').on('click', function () {
+                $(this).toggleClass('active');
+                $('.breadcrumb-nav').toggleClass('active');
+            });
+
+            $('.breadcrumb-nav-close').on('click', function () {
+                $('.breadcrumb-nav').removeClass('active');
+            });
+
+            if ($('.topTap').length) {
+                $('.breadcrumb-nav-open').removeClass('d-none');
+            }
+        })(jQuery);
+    </script>
+
+    <script>
+        if ($('li').hasClass('active')) {
+            $('.sidebar__menu-wrapper').animate({
+                scrollTop: eval($(".active").offset().top - 320)
+            }, 500);
+        }
+    </script>
+
+    <script>
+        function toggleDetails(btn) {
+            const row = btn.parentNode;
+            const nextRow = row.nextElementSibling;
+            if (nextRow.classList.contains('details')) {
+                const isVisible = nextRow.style.display === 'table-row';
+                nextRow.style.display = isVisible ? 'none' : 'table-row';
+                btn.textContent = isVisible ? '➕' : '➖';
+            }
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Select all dropdown toggles
+            const dropdowns = document.querySelectorAll(".sidebar-dropdown > a");
+
+            dropdowns.forEach(toggle => {
+                toggle.addEventListener("click", function () {
+                    const parent = this.parentElement;
+
+                    // Close all other dropdowns
+                    document.querySelectorAll(".sidebar-dropdown").forEach(drop => {
+                        if (drop !== parent) drop.classList.remove("active");
+                    });
+
+                    // Toggle clicked dropdown
+                    parent.classList.toggle("active");
+                });
+            });
+
+            const currentPage = window.location.pathname.split("/").pop().toLowerCase();
+            document.querySelectorAll(".sidebar-menu-item a.nav-link").forEach(link => {
+                const href = link.getAttribute("href").toLowerCase();
+                if (href === currentPage) {
+                    const parent = link.closest(".sidebar-menu-item");
+                    parent.classList.add("active");
+                    const dropdownParent = link.closest(".sidebar-dropdown");
+                    if (dropdownParent) dropdownParent.classList.add("active");
+                }
+            });
+        });
+    </script>
+
+    <asp:ContentPlaceHolder ID="scripts" runat="server">
+    </asp:ContentPlaceHolder>
+</body>
+</html>

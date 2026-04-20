@@ -1,0 +1,915 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="TrainAdminMaster.Master.cs" Inherits="Excel_Bus.TrainAdminMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExcelTrain - Dashboard</title>
+
+    <link rel="shortcut icon" type="image/png" href="~/assets/images/logo_icon/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/global/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/admin/css/vendor/bootstrap-toggle.min.css">
+    <link rel="stylesheet" href="~/assets/global/css/all.min.css">
+    <link rel="stylesheet" href="~/assets/global/css/line-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/global/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/assets/global/css/select2.min.css">
+    <link rel="stylesheet" href="~/assets/admin/css/app.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --main-blue: #1e3c72;
+            --main-blue-light: #2a5298;
+            --submenu-bg: #142850;
+            --active-yellow: #ffd500;
+            --hover-blue: #264e9a;
+            --divider: rgb(239 240 245);
+            --text-white: #fff;
+            --font: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font);
+            background: #47a17b;
+        }
+
+        .daterangepicker.ltr.show-ranges.opensright {
+            display: none !important;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #47a17b;
+            position: fixed;
+            top: 0;
+            left: 0;
+            color: var(--text-white);
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            font-family: var(--font);
+            box-shadow: 3px 0 10px rgb(132 205 130 / 67%);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .sidebar-hidden {
+            left: -250px !important;
+        }
+
+        .sidebar__inner {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar__logo {
+            padding: 7px 10px;
+            text-align: center;
+            border-bottom: 1px solid var(--divider);
+            background-color: #2d9b8b8a;
+        }
+
+            .sidebar__logo img {
+                width: 80px;
+                height: 80px;
+                object-fit: contain;
+                border-radius: 50%;
+            }
+
+            .sidebar__logo h3 {
+                color: #333;
+                font-size: 16px;
+                margin-top: 8px;
+                font-weight: 600;
+            }
+
+        .sidebar__menu-wrapper {
+            flex-grow: 1;
+            padding-top: 15px;
+        }
+
+        .sidebar__menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar-menu-item {
+            position: relative;
+            text-align: center;
+        }
+
+            .sidebar-menu-item::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background-color: #2d9b8b8a;
+            }
+
+            .sidebar-menu-item > a {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-decoration: none;
+                color: var(--text-white);
+                padding: 15px;
+                transition: all 0.3s ease;
+            }
+
+                .sidebar-menu-item > a i.menu-icon {
+                    font-size: 22px;
+                    margin-bottom: 4px;
+                }
+
+                .sidebar-menu-item > a:hover {
+                    background-color: #2d9b8b8a;
+                }
+
+            .sidebar-menu-item.active > a {
+                background-color: #2d9b8b8a;
+                color: #000;
+                font-weight: 600;
+            }
+
+        .sidebar-submenu {
+            background-color: #2d9b8b8a;
+            display: none;
+            border-top: 1px solid var(--divider);
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .sidebar-menu-item.active .sidebar-submenu {
+            display: block;
+        }
+
+        .sidebar-submenu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            .sidebar-submenu ul li a {
+                display: block;
+                padding: 10px 15px;
+                color: #ddd;
+                text-decoration: none;
+                font-size: 14px;
+                transition: all 0.3s ease;
+            }
+
+                .sidebar-submenu ul li a:hover {
+                    color: #fff;
+                    background-color: #2d9b8b8a;
+                }
+
+            .sidebar-submenu ul li.active a {
+                background-color: #2d9b8b8a;
+                color: #fff;
+            }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #47a17b;
+            border-radius: 10px;
+        }
+
+        /* Page Wrapper */
+        .page-wrapper {
+            margin-left: 250px;
+            background: #c2efdc;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        .page-wrapper.full-width {
+            margin-left: 0 !important;
+        }
+
+        /* Navbar */
+        .navbar-wrapper {
+            height: 76px;
+            background: #47a17b;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            box-shadow: 2px 7px 6px rgb(159 235 122 / 39%);
+        }
+
+        /* FIX: Toggle button kabhi hide na ho */
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+            min-width: 50px;
+            overflow: hidden;
+        }
+
+        #toggleSidebar {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+        }
+
+        #moduleBreadcrumb {
+            background: #2d9b8b;
+            padding: 6px 14px;
+            border-radius: 5px;
+            overflow: hidden;
+            max-width: 55vw;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            flex-shrink: 1;
+        }
+
+        .body-wrapper {
+            padding: 25px;
+        }
+
+        .navbar__right ul {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+        }
+
+            .notification-bell img {
+                width: 24px;
+                height: 24px;
+            }
+
+            .notification-bell:hover img {
+                transform: scale(1.1);
+                transition: transform 0.2s ease;
+            }
+
+        .badge.bg-warning {
+            background-color: #2d9b8b8a !important;
+            color: #000 !important;
+            font-weight: 600;
+            border-radius: 50%;
+            padding: 3px 7px;
+        }
+
+        .profile-dropdown button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .navbar-user__thumb img {
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .dropdown-menu__item:hover {
+            background-color: #2d9b8b8a;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px;
+            }
+
+                .sidebar.open {
+                    left: 0;
+                }
+
+            .page-wrapper {
+                margin-left: 0;
+            }
+
+            .navbar-wrapper {
+                left: 0;
+            }
+
+            #moduleBreadcrumb {
+                max-width: 35vw;
+            }
+        }
+    </style>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+
+        <div id="google_translate_element" style="display: none;"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar__inner">
+                <div class="sidebar__logo">
+                    <%--<img src="img/train_icon.png" alt="ExcelTrain Logo">--%>
+                   <div class="logo">
+                                <img src="img/train_icon.png" alt=" Logo">
+                            </div>
+
+                    <h3>Excel Train Admin</h3>
+                </div>
+
+                <div class="sidebar__menu-wrapper">
+                    <ul class="sidebar__menu">
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_13" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-bus"></i>
+                                <span class="menu-title">Dashboard</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_32" runat="server" visible="false">
+                                        <a href="Train_AdminDashboard.aspx" class="nav-link">
+                                            <i class="menu-icon las la-warehouse"></i>
+                                            <span class="menu-title">Dashboard</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_12" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-users"></i>
+                                <span class="menu-title">Manage Users</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_29" runat="server" visible="false">
+                                        <a href="Train_User.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Users</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_30" runat="server" visible="false">
+                                        <a href="Train_ActiveUser.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Active Users</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_31" runat="server" visible="false">
+                                        <a href="AllUsers.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">All Users</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_14" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-users"></i>
+                                <span class="menu-title">Booking History</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_33" runat="server" visible="false">
+                                        <a href="Train_BookedTicket.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Booked Ticket</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_34" runat="server" visible="false">
+                                        <a href="AllTickets.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">All Tickets</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_15" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-users"></i>
+                                <span class="menu-title">Report</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_35" runat="server" visible="false">
+                                        <a href="TrainTransaction.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Transaction History</span>
+                                        </a>
+                                    </li>
+                                    <li class="sidebar-menu-item" id="sm_36" runat="server" visible="false">
+                                        <a href=" " class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Login History</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_16" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-users"></i>
+                                <span class="menu-title">Payment</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_37" runat="server" visible="false">
+                                        <a href="Train_AllPayment.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">All Payment</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_18" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-users"></i>
+                                <span class="menu-title">Manage Fleet</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_39" runat="server" visible="false">
+                                        <a href="Train_CoachType.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Coach Type</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_40" runat="server" visible="false">
+                                        <a href="Train_CoachLayout.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Coach Layout</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_41" runat="server" visible="false">
+                                        <a href="Train_FleetType.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Fleet Type</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_48" runat="server" visible="false">
+                                        <a href="Train_Registration.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Train Registration</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_17" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-users"></i>
+                                <span class="menu-title">Station</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_38" runat="server" visible="false">
+                                        <a href="RailwayStations.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Railway Station</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_19" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-users"></i>
+                                <span class="menu-title">Manage Trip</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_42" runat="server" visible="false">
+                                        <a href="TrainRoutes.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Route</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_43" runat="server" visible="false">
+                                        <a href="TrainSchedules.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Schedule</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_44" runat="server" visible="false">
+                                        <a href="Train_TicketPrice.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Ticket Price</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_45" runat="server" visible="false">
+                                        <a href="TrainTrip.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Add Trip</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_46" runat="server" visible="false">
+                                        <a href="Train_RouteAssign.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Train Route Assign</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="sidebar-menu-item sidebar-dropdown" id="m_20" runat="server" visible="false">
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon las la-users"></i>
+                                <span class="menu-title">Assign Resources</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li class="sidebar-menu-item" id="sm_47" runat="server" visible="false">
+                                        <a href="Train_AssignDetails.aspx" class="nav-link">
+                                            <i class="menu-icon las la-dot-circle"></i>
+                                            <span class="menu-title">Train Assignments</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Wrapper -->
+        <div class="page-wrapper">
+            <!-- Navbar -->
+            <nav class="navbar-wrapper">
+
+                <!-- LEFT: Toggle + Breadcrumb — FIX: flex-shrink:0 ensures toggle never disappears -->
+                <div class="navbar-left">
+                    <span id="toggleSidebar">
+                        <i class="las la-bars" style="font-size:26px; color:#fff;"></i>
+                    </span>
+                    <div id="moduleBreadcrumb" style="display:none;">
+                        <span id="breadcrumbModule" style="color:#fff; font-weight:500;"></span>
+                        <span id="breadcrumbArrow" style="color:#fff; display:none;"> → </span>
+                        <span id="breadcrumbSub" style="color:#fff; font-weight:700;"></span>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Notification + Profile -->
+                <div class="navbar__right">
+                    <ul class="navbar__action-list">
+                       <%-- <li class="nav-item dropdown position-relative">
+                            <button class="btn btn-link position-relative text-white"
+                                id="notificationToggle"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                aria-label="Notifications">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1827/1827392.png" alt="Notification Bell" style="width: 24px; height: 24px;" />
+                                <span class="badge bg-warning text-dark position-absolute top-0 start-100 translate-middle rounded-pill"
+                                    runat="server" id="notificationCount" style="font-size: 0.7rem; padding: 0.25em 0.4em;"></span>
+                            </button>
+                        </li>--%>
+
+                        <li class="dropdown d-flex align-items-center profile-dropdown">
+                            <button type="button" class="btn btn-link text-white p-0 d-flex align-items-center"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="navbar-user d-flex align-items-center">
+                                    <span class="navbar-user__thumb me-2">
+                                        <asp:Image ID="imgAdminProfile" runat="server" AlternateText="Profile Image"
+                                            CssClass="rounded-circle" Width="35" Height="35"
+                                            ImageUrl="~/img/user.png" />
+                                    </span>
+                                    <span class="navbar-user__info d-none d-sm-block">
+                                        <span class="navbar-user__name fw-semibold" runat="server" id="adminName">admin</span>
+                                    </span>
+                                    <i class="las la-chevron-circle-down ms-2"></i>
+                                </span>
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu--sm border-0 box--shadow1 dropdown-menu-end mt-2">
+                                <a href="viewProfile.aspx" class="dropdown-menu__item d-flex align-items-center px-3 py-2 text-decoration-none text-dark">
+                                    <i class="dropdown-menu__icon las la-user-circle me-2 fs-5"></i>
+                                    <span class="dropdown-menu__caption">Profile</span>
+                                </a>
+                                <a href="changePassword.aspx" class="dropdown-menu__item d-flex align-items-center px-3 py-2 text-decoration-none text-dark">
+                                    <i class="dropdown-menu__icon las la-key me-2 fs-5"></i>
+                                    <span class="dropdown-menu__caption">Password</span>
+                                </a>
+                                <asp:LinkButton ID="lnkLogout" runat="server" CssClass="dropdown-menu__item d-flex align-items-center px-3 py-2 text-decoration-none text-dark" OnClick="lnkLogout_Click">
+                                    <i class="dropdown-menu__icon las la-sign-out-alt me-2 fs-5"></i>
+                                    <span class="dropdown-menu__caption">Logout</span>
+                                </asp:LinkButton>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid px-3 px-sm-0">
+                <div class="body-wrapper">
+                    <div class="bodywrapper__inner">
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener("click", function (e) {
+            const toggle = document.getElementById("notificationToggle");
+            const menu = toggle?.nextElementSibling;
+            if (!menu) return;
+            if (toggle.contains(e.target)) {
+                menu.classList.toggle("show");
+            } else if (!menu.contains(e.target)) {
+                menu.classList.remove("show");
+            }
+        });
+    </script>
+
+    <script src="<%= ResolveUrl("~/assets/global/js/jquery-3.7.1.min.js") %>"></script>
+    <script src="<%= ResolveUrl("~/assets/global/js/bootstrap.bundle.min.js") %>"></script>
+    <script src="<%= ResolveUrl("~/assets/admin/js/vendor/bootstrap-toggle.min.js") %>"></script>
+
+    <link href="<%= ResolveUrl("~/assets/global/css/iziToast.min.css") %>" rel="stylesheet">
+    <link href="<%= ResolveUrl("~/assets/global/css/iziToast_custom.css") %>" rel="stylesheet">
+    <script src="<%= ResolveUrl("~/assets/global/js/iziToast.min.js") %>"></script>
+
+    <script>
+        "use strict";
+        const colors = {
+            success: '#28c76f',
+            error: '#eb2222',
+            warning: '#ff9f43',
+            info: '#1e9ff2',
+        }
+        const icons = {
+            success: 'fas fa-check-circle',
+            error: 'fas fa-times-circle',
+            warning: 'fas fa-exclamation-triangle',
+            info: 'fas fa-exclamation-circle',
+        }
+        const triggerToaster = (status, message) => {
+            iziToast[status]({
+                title: status.charAt(0).toUpperCase() + status.slice(1),
+                message: message,
+                position: "topRight",
+                backgroundColor: '#fff',
+                icon: icons[status],
+                iconColor: colors[status],
+                progressBarColor: colors[status],
+                titleSize: '1rem',
+                messageSize: '1rem',
+                titleColor: '#474747',
+                messageColor: '#a2a2a2',
+                transitionIn: 'obunceInLeft'
+            });
+        }
+        function notify(status, message) {
+            if (typeof message == 'string') {
+                triggerToaster(status, message);
+            } else {
+                $.each(message, (i, val) => triggerToaster(status, val));
+            }
+        }
+    </script>
+
+    <script src="<%= ResolveUrl("~/assets/global/js/nicEdit.js") %>"></script>
+    <script src="<%= ResolveUrl("~/assets/global/js/select2.min.js") %>"></script>
+    <script src="<%= ResolveUrl("~/assets/admin/js/app.js") %>"></script>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'fr',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+        function autoTranslateToFrench() {
+            const interval = setInterval(() => {
+                const select = document.querySelector('.goog-te-combo');
+                if (select) {
+                    select.value = 'fr';
+                    select.dispatchEvent(new Event('change'));
+                    clearInterval(interval);
+                }
+            }, 500);
+        }
+        window.addEventListener('load', () => {
+            autoTranslateToFrench();
+        });
+    </script>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        "use strict";
+        bkLib.onDomLoaded(function () {
+            $(".nicEdit").each(function (index) {
+                $(this).attr("id", "nicEditor" + index);
+                new nicEditor({ fullPanel: true }).panelInstance('nicEditor' + index, { hasPanel: true });
+            });
+        });
+        (function ($) {
+            $(document).on('mouseover', '.nicEdit-main,.nicEdit-panelContain', function () {
+                $('.nicEdit-main').focus();
+            });
+            $('.breadcrumb-nav-open').on('click', function () {
+                $(this).toggleClass('active');
+                $('.breadcrumb-nav').toggleClass('active');
+            });
+            $('.breadcrumb-nav-close').on('click', function () {
+                $('.breadcrumb-nav').removeClass('active');
+            });
+            if ($('.topTap').length) {
+                $('.breadcrumb-nav-open').removeClass('d-none');
+            }
+        })(jQuery);
+    </script>
+
+    <script>
+        if ($('li').hasClass('active')) {
+            $('.sidebar__menu-wrapper').animate({
+                scrollTop: eval($(".active").offset().top - 320)
+            }, 500);
+        }
+    </script>
+
+    <script>
+        function toggleDetails(btn) {
+            const row = btn.parentNode;
+            const nextRow = row.nextElementSibling;
+            if (nextRow.classList.contains('details')) {
+                const isVisible = nextRow.style.display === 'table-row';
+                nextRow.style.display = isVisible ? 'none' : 'table-row';
+                btn.textContent = isVisible ? '➕' : '➖';
+            }
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const breadcrumb = document.getElementById("moduleBreadcrumb");
+            const modSpan = document.getElementById("breadcrumbModule");
+            const arrowSpan = document.getElementById("breadcrumbArrow");
+            const subSpan = document.getElementById("breadcrumbSub");
+
+            // ---- Breadcrumb restore from localStorage ----
+            const savedModule = localStorage.getItem("breadcrumbModule");
+            const savedSub = localStorage.getItem("breadcrumbSub");
+
+            if (savedModule) {
+                modSpan.textContent = savedModule;
+                breadcrumb.style.display = "block";
+                if (savedSub) {
+                    arrowSpan.style.display = "inline";
+                    subSpan.textContent = savedSub;
+                } else {
+                    arrowSpan.style.display = "none";
+                    subSpan.textContent = "";
+                }
+            }
+
+            // ---- Sidebar active menu restore from localStorage ----
+            const savedMenu = localStorage.getItem("activeTrainMenu");
+            if (savedMenu) {
+                document.querySelectorAll(".sidebar-dropdown").forEach(function (drop) {
+                    if (drop.id === savedMenu) {
+                        drop.classList.add("active");
+                    }
+                });
+            }
+
+            // ---- Toggle Sidebar — FIX: state localStorage mein save hoti hai ----
+            const toggleBtn = document.getElementById("toggleSidebar");
+            const sidebar = document.querySelector(".sidebar");
+            const pageWrapper = document.querySelector(".page-wrapper");
+
+            // Page load pe sidebar hidden state restore karo
+            const sidebarHidden = localStorage.getItem("sidebarHidden") === "true";
+            if (sidebarHidden) {
+                sidebar.classList.add("sidebar-hidden");
+                pageWrapper.classList.add("full-width");
+            }
+
+            toggleBtn.addEventListener("click", function () {
+                sidebar.classList.toggle("sidebar-hidden");
+                pageWrapper.classList.toggle("full-width");
+                // Naya state localStorage mein save karo
+                const isNowHidden = sidebar.classList.contains("sidebar-hidden");
+                localStorage.setItem("sidebarHidden", isNowHidden);
+            });
+
+            // ---- Parent menu click ----
+            document.querySelectorAll(".sidebar-dropdown > a").forEach(function (toggle) {
+                toggle.addEventListener("click", function () {
+                    const parent = this.parentElement;
+                    const isActive = parent.classList.contains("active");
+
+                    // Sab close karo
+                    document.querySelectorAll(".sidebar-dropdown").forEach(function (drop) {
+                        drop.classList.remove("active");
+                    });
+
+                    if (!isActive) {
+                        parent.classList.add("active");
+                        localStorage.setItem("activeTrainMenu", parent.id);
+
+                        // Breadcrumb - module name
+                        const moduleName = this.querySelector(".menu-title")?.textContent.trim() || "";
+                        modSpan.textContent = moduleName;
+                        arrowSpan.style.display = "none";
+                        subSpan.textContent = "";
+                        breadcrumb.style.display = "block";
+                        localStorage.setItem("breadcrumbModule", moduleName);
+                        localStorage.removeItem("breadcrumbSub");
+                    } else {
+                        localStorage.removeItem("activeTrainMenu");
+                    }
+                });
+            });
+
+            // ---- Submenu link click ----
+            document.querySelectorAll(".sidebar-submenu a.nav-link").forEach(function (link) {
+                link.addEventListener("click", function () {
+                    const dropParent = this.closest(".sidebar-dropdown");
+                    if (dropParent) {
+                        localStorage.setItem("activeTrainMenu", dropParent.id);
+                    }
+                    const subName = this.querySelector(".menu-title")?.textContent.trim() || "";
+                    arrowSpan.style.display = "inline";
+                    subSpan.textContent = subName;
+                    breadcrumb.style.display = "block";
+                    localStorage.setItem("breadcrumbSub", subName);
+                });
+            });
+
+        });
+    </script>  <asp:ContentPlaceHolder ID="scripts" runat="server">
+    </asp:ContentPlaceHolder>
+</body>
+</html>
