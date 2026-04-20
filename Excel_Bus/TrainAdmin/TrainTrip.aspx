@@ -101,7 +101,6 @@
                 background-color: #f9f9f9;
             }
 
-        /* ✅ Status Badge */
         .status-badge {
             padding: 5px 12px;
             border-radius: 12px;
@@ -110,25 +109,12 @@
             display: inline-block;
         }
 
-        /* ✅ ACTIVE = red background (same as your screenshot) */
-        /*.status-active {
-            background: #ffe0e0;
-            color: #ff4444;
-        }*/
-
-        /* ✅ INACTIVE = green background */
-        /*.status-inactive {
-            background: #d1f4e0;
-            color: #00a854;
-        }*/
-
-        /* ✅ ACTIVE = green */
+    
         .status-active {
             background: #d1f4e0;
             color: #00a854;
         }
 
-        /* ✅ INACTIVE = red */
         .status-inactive {
             background: #ffe0e0;
             color: #ff4444;
@@ -140,7 +126,6 @@
             align-items: center;
         }
 
-        /* ✅ Disable Button - Red border (shown when trip is ACTIVE) */
         .btn-disable {
             padding: 6px 12px;
             background: white;
@@ -164,7 +149,6 @@
                 color: white;
             }
 
-        /* ✅ Enable Button - Green border (shown when trip is INACTIVE) */
         .btn-enable {
             padding: 6px 12px;
             background: white;
@@ -188,7 +172,6 @@
                 color: white;
             }
 
-        /* Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -401,7 +384,6 @@
             </div>
         </div>
 
-        <!-- Trip Table -->
         <div class="trip-table">
             <asp:GridView ID="gvTrips" runat="server" AutoGenerateColumns="False"
                 DataKeyNames="TripId"
@@ -424,7 +406,6 @@
                     <asp:TemplateField HeaderText="Action">
                         <ItemTemplate>
                             <div class="action-buttons">
-                                <%-- ✅ ACTIVE → red Disable button | INACTIVE → green Enable button --%>
                                 <asp:LinkButton ID="btnToggleStatus" runat="server"
                                     Text='<%# Eval("Status").ToString() == "ACTIVE" ? "🚫 Disable" : "✓ Enable" %>'
                                     CssClass='<%# Eval("Status").ToString() == "ACTIVE" ? "btn-disable" : "btn-enable" %>'
@@ -439,7 +420,6 @@
         </div>
     </div>
 
-    <!-- Add/Edit Modal -->
     <div id="tripModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -465,16 +445,7 @@
                         <label class="form-label">Fleet Type <span class="required">*</span></label>
                         <asp:DropDownList ID="ddlFleetType" runat="server" CssClass="form-control"></asp:DropDownList>
                     </div>
-                    <%--<div class="form-group">
-                        <label class="form-label">Fleet Type <span class="required">*</span></label>
-                        <div id="fleetTypeContainer" class="checkbox-container">
-                            <asp:CheckBoxList ID="ddlFleetType" runat="server"
-                                CssClass="checkbox-list"
-                                RepeatLayout="Flow"
-                                RepeatDirection="Vertical">
-                            </asp:CheckBoxList>
-                        </div>
-                    </div>--%>
+                    
                 </div>
 
                 <div class="form-row">
@@ -527,36 +498,12 @@
             return false;
         }
 
-<%--        function clearForm() {
-            document.getElementById('<%= hdnTripId.ClientID %>').value = '0';
-            document.getElementById('<%= txtTitle.ClientID %>').value = '';
 
-            var fleetType = document.getElementById('<%= ddlFleetType.ClientID %>');
-            if (fleetType) fleetType.selectedIndex = 0;
-
-            var trainNumber = document.getElementById('<%= ddlTrainNo.ClientID %>');
-            if (trainNumber) trainNumber.selectedIndex = 0;
-
-            var route = document.getElementById('<%= ddlRoute.ClientID %>');
-            if (route) route.selectedIndex = 0;
-
-            var schedule = document.getElementById('<%= ddlSchedule.ClientID %>');
-            if (schedule) schedule.selectedIndex = 0;
-
-            var startFrom = document.getElementById('<%= ddlStartFrom.ClientID %>');
-            if (startFrom) startFrom.selectedIndex = 0;
-
-            var endTo = document.getElementById('<%= ddlEndTo.ClientID %>');
-            if (endTo) endTo.selectedIndex = 0;
-
-            document.getElementById('<%= lblModalTitle.ClientID %>').innerText = 'Add New Trip';
-        }--%>
 
         function clearForm() {
             document.getElementById('<%= hdnTripId.ClientID %>').value = '0';
             document.getElementById('<%= txtTitle.ClientID %>').value = '';
 
-            // ✅ CheckBoxList ke saare checkboxes uncheck karo
             var checkboxes = document.querySelectorAll('[id*="ddlFleetType"] input[type="checkbox"]');
             checkboxes.forEach(function (cb) {
                 cb.checked = false;
@@ -603,7 +550,6 @@
             }, 3000);
         }
 
-        // Close modal when clicking outside
         window.onclick = function (event) {
             var modal = document.getElementById('tripModal');
             if (event.target == modal) {

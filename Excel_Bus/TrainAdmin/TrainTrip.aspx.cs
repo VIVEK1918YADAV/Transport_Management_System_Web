@@ -41,7 +41,6 @@ namespace Excel_Bus.TrainAdmin
             }
         }
 
-        // ✅ FIXED: Use GetTrainTrips (all trips) to show both ACTIVE and INACTIVE
         private async Task LoadTrips(string searchTerm = "")
         {
             try
@@ -86,7 +85,6 @@ namespace Excel_Bus.TrainAdmin
         {
             try
             {
-                // Load Fleet Types
                 var fleetTypesResponse = await client.GetAsync("TrainFleetTypes/GetTrainFleetTypes");
                 if (fleetTypesResponse.IsSuccessStatusCode)
                 {
@@ -99,7 +97,6 @@ namespace Excel_Bus.TrainAdmin
                         ddlFleetType.Items.Add(new ListItem(item.Name, item.FleetTypeId.ToString()));
                 }
 
-                // Load Trains
                 var trainResponse = await client.GetAsync("TblTrainsRegs/GetActiveTrains");
                 if (trainResponse.IsSuccessStatusCode)
                 {
@@ -115,7 +112,6 @@ namespace Excel_Bus.TrainAdmin
                     }
                 }
 
-                // Load Routes
                 var routesResponse = await client.GetAsync("TrainRoutes/GetActiveTrainRoutes");
                 if (routesResponse.IsSuccessStatusCode)
                 {
@@ -128,7 +124,6 @@ namespace Excel_Bus.TrainAdmin
                         ddlRoute.Items.Add(new ListItem(item.RouteName, item.RouteId.ToString()));
                 }
 
-                // Load Schedules
                 var schedulesResponse = await client.GetAsync("TrainSchedules/GetActiveTrainSchedules");
                 if (schedulesResponse.IsSuccessStatusCode)
                 {
@@ -141,7 +136,6 @@ namespace Excel_Bus.TrainAdmin
                         ddlSchedule.Items.Add(new ListItem(item.DepartureTime, item.ScheduleId.ToString()));
                 }
 
-                // Load Railway Stations
                 var countersResponse = await client.GetAsync("RailwayStations/GetRailwayStations");
                 if (countersResponse.IsSuccessStatusCode)
                 {
@@ -177,10 +171,8 @@ namespace Excel_Bus.TrainAdmin
 
         protected void gvTrips_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            // Additional row customization if needed
         }
 
-        // ✅ FIXED: Use CommandArgument directly (already contains TripId)
         protected void gvTrips_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "ToggleStatus")
@@ -244,91 +236,6 @@ namespace Excel_Bus.TrainAdmin
             }
         }
 
-        //protected async void btnSubmit_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        int tripId = Convert.ToInt32(hdnTripId.Value);
-        //        HttpResponseMessage response;
-        //        var selectedFleetTypeIds = new List<int>();
-        //        foreach (ListItem item in ddlFleetType.Items)
-        //        {
-        //            if (item.Selected)
-        //            {
-        //                selectedFleetTypeIds.Add(int.Parse(item.Value));
-        //            }
-        //        }
-        //        if (tripId == 0)
-        //        {
-        //            var tripData = new
-        //            {
-        //                id = tripId,
-        //                title = txtTitle.Text.Trim(),
-        //                trainId = ddlTrainNo.SelectedValue,
-        //                fleetTypeId = Convert.ToInt32(ddlFleetType.SelectedValue),
-        //                RouteId = Convert.ToInt32(ddlRoute.SelectedValue),
-        //                scheduleId = Convert.ToInt32(ddlSchedule.SelectedValue),
-        //                startFrom = Convert.ToInt32(ddlStartFrom.SelectedValue),
-        //                endTo = Convert.ToInt32(ddlEndTo.SelectedValue),
-        //            };
-
-        //            string jsonContent = JsonConvert.SerializeObject(tripData);
-        //            StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-        //            response = await client.PostAsync("TrainTrips/PostTrainTrip", content);
-        //        }
-        //        else
-        //        {
-        //            HttpResponseMessage getResponse = await client.GetAsync($"TrainTrips/GetTrainTrip/{tripId}");
-
-        //            if (!getResponse.IsSuccessStatusCode)
-        //            {
-        //                ShowError("Failed to load current trip details");
-        //                ScriptManager.RegisterStartupScript(this, GetType(), "ShowModal", "showModal();", true);
-        //                return;
-        //            }
-
-        //            string currentJsonResponse = await getResponse.Content.ReadAsStringAsync();
-        //            TripDetailModel currentTrip = JsonConvert.DeserializeObject<TripDetailModel>(currentJsonResponse);
-
-        //            var updateData = new
-        //            {
-        //                id = tripId,
-        //                title = txtTitle.Text.Trim(),
-        //                trainId = ddlTrainNo.SelectedValue,
-        //                fleetTypeId = Convert.ToInt32(ddlFleetType.SelectedValue),
-        //                RouteId = Convert.ToInt32(ddlRoute.SelectedValue),
-        //                scheduleId = Convert.ToInt32(ddlSchedule.SelectedValue),
-        //                startFrom = Convert.ToInt32(ddlStartFrom.SelectedValue),
-        //                endTo = Convert.ToInt32(ddlEndTo.SelectedValue),
-        //                status = currentTrip.Status
-        //            };
-
-        //            string jsonContent = JsonConvert.SerializeObject(updateData);
-        //            StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-        //            response = await client.PostAsync($"TrainTrips/PutTrainTrip/{tripId}", content);
-        //        }
-
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            string message = tripId == 0 ? "Trip added successfully!" : "Trip updated successfully!";
-        //            await LoadTrips();
-        //            ClearForm();
-        //            ScriptManager.RegisterStartupScript(this, GetType(), "Success",
-        //                $"hideModal(); showSuccess('{message}');", true);
-        //        }
-        //        else
-        //        {
-        //            string errorContent = await response.Content.ReadAsStringAsync();
-        //            ShowError($"Failed to save trip. Status: {response.StatusCode}. Error: {errorContent}");
-        //            ScriptManager.RegisterStartupScript(this, GetType(), "ShowModal", "showModal();", true);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ShowError($"Error saving trip: {ex.Message}");
-        //        ScriptManager.RegisterStartupScript(this, GetType(), "ShowModal", "showModal();", true);
-        //    }
-        //}
 
 
         protected async void btnSubmit_Click(object sender, EventArgs e)
@@ -338,7 +245,6 @@ namespace Excel_Bus.TrainAdmin
                 int tripId = Convert.ToInt32(hdnTripId.Value);
                 HttpResponseMessage response;
 
-                // ✅ Selected Fleet Type IDs loop se nikalo
                 var selectedFleetTypeIds = new List<int>();
                 foreach (ListItem item in ddlFleetType.Items)
                 {
@@ -426,7 +332,6 @@ namespace Excel_Bus.TrainAdmin
             }
         }
 
-        // ✅ FIXED: No pre-fetch needed, just POST to toggle endpoint
         private async Task ToggleTripStatus(int tripId)
         {
             try
@@ -453,42 +358,16 @@ namespace Excel_Bus.TrainAdmin
             }
         }
 
-        // ✅ FIXED: ACTIVE = red badge, INACTIVE = green badge
-        //protected string GetStatusClass(object status)
-        //{
-        //    if (status == null) return "status-badge";
-        //    string statusValue = status.ToString();
-        //    return statusValue == "ACTIVE"
-        //        ? "status-badge status-active"
-        //        : "status-badge status-inactive";
-        //}
 
         protected string GetStatusClass(object status)
         {
             if (status == null) return "status-badge";
             string statusValue = status.ToString();
-            // ✅ ACTIVE = green, INACTIVE = red
             return statusValue == "ACTIVE"
                 ? "status-badge status-active"
                 : "status-badge status-inactive";
         }
 
-        //private void ClearForm()
-        //{
-        //    hdnTripId.Value = "0";
-        //    txtTitle.Text = string.Empty;
-        //    //if (ddlFleetType.Items.Count > 0) ddlFleetType.SelectedIndex = 0;
-        //    foreach (ListItem item in ddlFleetType.Items)
-        //    {
-        //        item.Selected = false;
-        //    }
-        //    if (ddlTrainNo.Items.Count > 0) ddlTrainNo.SelectedIndex = 0;
-        //    if (ddlRoute.Items.Count > 0) ddlRoute.SelectedIndex = 0;
-        //    if (ddlSchedule.Items.Count > 0) ddlSchedule.SelectedIndex = 0;
-        //    if (ddlStartFrom.Items.Count > 0) ddlStartFrom.SelectedIndex = 0;
-        //    if (ddlEndTo.Items.Count > 0) ddlEndTo.SelectedIndex = 0;
-        //    lblModalTitle.Text = "Add New Trip";
-        //}
 
         private void ClearForm()
         {
@@ -512,7 +391,6 @@ namespace Excel_Bus.TrainAdmin
         }
     }
 
-    // ===== Models =====
     public class TrainTripModel
     {
         public int TripId { get; set; }
